@@ -2,9 +2,9 @@
 
 namespace Idez\NovaSecurity;
 
+use Idez\NovaSecurity\Commands\NovaSecurityCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Idez\NovaSecurity\Commands\NovaSecurityCommand;
 
 class NovaSecurityServiceProvider extends PackageServiceProvider
 {
