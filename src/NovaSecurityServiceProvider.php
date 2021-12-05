@@ -4,7 +4,6 @@ namespace Idez\NovaSecurity;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Idez\NovaSecurity\Commands\NovaSecurityCommand;
 
 class NovaSecurityServiceProvider extends PackageServiceProvider
 {
@@ -18,8 +17,6 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
         $package
             ->name('nova-security')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_nova-security_table')
-            ->hasCommand(NovaSecurityCommand::class);
+            ->hasMigration('add_blocked_at_column_to_users_table');
     }
 }
