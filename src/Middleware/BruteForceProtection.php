@@ -69,13 +69,13 @@ final class BruteForceProtection
          */
         $model = config('nova-security.user_model');
 
-        if(! $model instanceof AuthUser) {
+        if (! $model instanceof AuthUser) {
             throw new RuntimeException('Invalid user model');
         }
 
 
         $field = config('nova-security.username_field');
-        if(blank($field)) {
+        if (blank($field)) {
             throw new RuntimeException('Invalid username field');
         }
 
