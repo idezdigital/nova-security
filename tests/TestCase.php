@@ -2,9 +2,9 @@
 
 namespace Idez\NovaSecurity\Tests;
 
+use Idez\NovaSecurity\NovaSecurityServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Idez\NovaSecurity\NovaSecurityServiceProvider;
 
 class TestCase extends Orchestra
 {

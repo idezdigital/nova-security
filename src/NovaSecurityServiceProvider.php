@@ -2,6 +2,7 @@
 
 namespace Idez\NovaSecurity;
 
+use Idez\NovaSecurity\Commands\NovaSecurityCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
