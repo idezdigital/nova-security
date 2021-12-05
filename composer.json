@@ -1,24 +1,24 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "idez/nova-security",
+    "description": "This is a collection of different techniques and measures to make your laravel app more secure.",
     "keywords": [
-        ":vendor_name",
+        "Idez",
         "laravel",
-        ":package_slug"
+        "nova-security"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/idez/nova-security",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Idez Digital",
+            "email": "dev@idez.com.br",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.0",
         "spatie/laravel-package-tools": "^1.9.2",
-        "illuminate/contracts": "^8.73"
+        "laravel/nova": "^3.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.10",
@@ -34,13 +34,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Idez\\NovaSecurity\\": "src",
+            "Idez\\NovaSecurity\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Idez\\NovaSecurity\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -54,13 +54,19 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Idez\\NovaSecurity\\NovaSecurityServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "NovaSecurity": "Idez\\NovaSecurity\\Facades\\NovaSecurity"
             }
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ]
 }

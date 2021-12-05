@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Idez\NovaSecurity\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class NovaSecurityCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'nova-security';
 
     public $description = 'My command';
 
