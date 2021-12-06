@@ -3,8 +3,6 @@
 namespace Idez\NovaSecurity\Tests;
 
 use Idez\NovaSecurity\NovaSecurityServiceProvider;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -29,7 +27,6 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
-
     }
 
     public function refreshServiceProvider(): void

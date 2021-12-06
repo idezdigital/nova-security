@@ -5,8 +5,7 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 use function Pest\Faker\faker;
 
-
-beforeAll(function() {
+beforeAll(function () {
     class TestAuthenticationSessionUser extends User
     {
         protected $table = 'users';
@@ -30,7 +29,7 @@ beforeAll(function() {
 });
 
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = TestAuthenticationSessionUser::forceCreate([
         'name' => faker()->name,
         'email' => faker()->email,
@@ -40,11 +39,10 @@ beforeEach(function() {
 
 
 it('should be blocked after 3 attempts.', function () {
-
     config()->set('nova-security.brute_force.max_attempts', 3);
 
-    for($i = 0; $i < 10; $i++) {
-       $this->post('/_test/logins', [
+    for ($i = 0; $i < 10; $i++) {
+        $this->post('/_test/logins', [
             'email' => $this->user->email,
             'password' => 'wrong-password',
         ]);
@@ -53,6 +51,3 @@ it('should be blocked after 3 attempts.', function () {
             ->toBeTruthy();
     }
 });
-
-
-
