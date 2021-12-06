@@ -1,4 +1,7 @@
-# This is a collection of different techniques and measures to make your laravel app more secure.
+# Nova Security
+
+
+This is a collection of different techniques and measures to make your laravel app more secure.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/idez/nova-security.svg?style=flat-square)](https://packagist.org/packages/idez/nova-security)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/idez/nova-security/run-tests?label=tests)](https://github.com/idez/nova-security/actions?query=workflow%3Arun-tests+branch%3Amain)
