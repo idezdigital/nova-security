@@ -11,7 +11,6 @@ trait HasUuid
 {
     public static function bootHasUuid()
     {
-
         static::creating(function ($model) {
             if (blank($model->api_key)) {
                 $model->api_key = Str::uuid();

@@ -2,11 +2,11 @@
 
 namespace Idez\NovaSecurity\Http\Middleware;
 
+use function app;
 use Closure;
 use Illuminate\Support\Facades\Request;
 use PragmaRX\Google2FALaravel\Google2FA;
 use PragmaRX\Google2FALaravel\Support\Authenticator;
-use function app;
 
 class TwoFactor
 {
@@ -28,12 +28,11 @@ class TwoFactor
             return $next($request);
         }
 
-        if(method_exists($authenticator, 'makeRequestOneTimePasswordResponse')) {
+        if (method_exists($authenticator, 'makeRequestOneTimePasswordResponse')) {
             return $authenticator->makeRequestOneTimePasswordResponse();
         }
 
 
         return $next($request);
     }
-
 }

@@ -21,12 +21,12 @@ class InvalidUserModelRule implements Rule
     {
         $this->value = $value;
 
-        if(! class_exists($value)) {
+        if (! class_exists($value)) {
             return false;
         }
 
         $reflection = new ReflectionClass($value);
-        if(! $reflection->isSubclassOf(Authenticatable::class)) {
+        if (! $reflection->isSubclassOf(Authenticatable::class)) {
             return false;
         }
 
