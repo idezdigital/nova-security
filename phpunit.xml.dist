@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -19,7 +20,7 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="Idez Test Suite">
+        <testsuite name="Spatie Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
@@ -36,4 +37,11 @@
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_DEFAULT" value="sqlite_testing" />
+    </php>
 </phpunit>

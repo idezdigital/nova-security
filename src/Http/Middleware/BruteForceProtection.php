@@ -1,36 +1,47 @@
 <?php
 
-namespace Idez\NovaSecurity\Middleware;
+namespace Idez\NovaSecurity\Http\Middleware;
 
 use Closure;
-use Illuminate\Foundation\Auth\User as AuthUser;
+use Idez\NovaSecurity\NovaSecurity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use RuntimeException;
+use function app;
+use function config;
+use function filled;
+use function now;
+use function trans;
 
 final class BruteForceProtection
 {
+    private NovaSecurity $novaSecurity;
+
+    public function __construct()
+    {
+        $this->novaSecurity = app('nova-security');
+    }
+
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
-     * @param  Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! ($request->routeIs('nova.login'))) {
+        if (!($request->routeIs('nova.login'))) {
             return $next($request);
         }
 
-        $user = $this->getUser($request);
+        $user = $this->novaSecurity->getUserByProtectedField($request);
         if (! $user) {
             return $next($request);
         }
 
-        $field = config('nova-security.username_field');
+        $field = $this->novaSecurity->getProtectedField();
 
         if (filled($user->getAttribute('blocked_at'))) {
             throw ValidationException::withMessages([
@@ -38,9 +49,10 @@ final class BruteForceProtection
             ]);
         }
 
-        $key = "nova-brute-force:{$request?->input($field)}";
+
+        $key = "nova-brute-force::{$user->getAttribute($field)}";
         $attempts = Cache::get($key, 0);
-        $match = Hash::check($request->input($field), $user?->getAttribute('password'));
+        $match = Hash::check($request->input($field), $user->getAttribute('password'));
         if ($match) {
             Cache::forget($key);
 
@@ -60,26 +72,5 @@ final class BruteForceProtection
         }
 
         return $next($request);
-    }
-
-    private function getUser(Request $request): ?AuthUser
-    {
-        /**
-         * @var AuthUser $user
-         */
-        $model = config('nova-security.user_model');
-
-        if (! $model instanceof AuthUser) {
-            throw new RuntimeException('Invalid user model');
-        }
-
-
-        $field = config('nova-security.username_field');
-        if (blank($field)) {
-            throw new RuntimeException('Invalid username field');
-        }
-
-
-        return $model::where($field, '==', $request->input($field))->first();
     }
 }

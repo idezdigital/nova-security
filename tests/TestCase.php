@@ -3,7 +3,6 @@
 namespace Idez\NovaSecurity\Tests;
 
 use Idez\NovaSecurity\NovaSecurityServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -11,22 +10,13 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Spatie\\Health\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             NovaSecurityServiceProvider::class,
         ];
-    }
-
-    public function getEnvironmentSetUp($app)
-    {
-        config()->set('database.default', 'testing');
     }
 
     public function refreshServiceProvider(): void
@@ -39,7 +29,7 @@ class TestCase extends Orchestra
      *
      * @return void
      */
-    protected function defineDatabaseMigrations()
+    protected function defineDatabaseMigrations(): void
     {
         $this->loadLaravelMigrations();
     }

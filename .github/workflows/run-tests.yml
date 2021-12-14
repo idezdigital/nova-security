@@ -28,7 +28,7 @@ jobs:
         env:
           MYSQL_USER: user
           MYSQL_PASSWORD: secret
-          MYSQL_DATABASE: laravel_health
+          MYSQL_DATABASE: nova_security
           MYSQL_ROOT_PASSWORD: secretroot
         ports:
           - 3306

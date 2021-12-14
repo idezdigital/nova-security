@@ -1,6 +1,6 @@
 <?php
 
-use Idez\NovaSecurity\Middleware\BruteForceProtection;
+use Idez\NovaSecurity\Http\Middleware\BruteForceProtection;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 use function Pest\Faker\faker;
@@ -12,17 +12,6 @@ beforeAll(function () {
         protected $fillable = ['id', 'name', 'email', 'password', 'blocked_at'];
     }
 
-
-    config()->set('nova-security.user_model', TestAuthenticationSessionUser::class);
-    config()->set('nova-security.username_field', 'email');
-
-    TestAuthenticationSessionUser::forceCreate([
-        'name' => 'Arthur Tavares',
-        'email' => 'arthur@idez.com.br',
-        'password' => \Illuminate\Support\Facades\Hash::make('secret'),
-        'blocked_at' => null,
-    ]);
-
     Route::middleware(BruteForceProtection::class)->any('/_test/logins', function () {
         return 'OK';
     });
@@ -30,7 +19,7 @@ beforeAll(function () {
 
 
 beforeEach(function () {
-    $this->user = TestAuthenticationSessionUser::forceCreate([
+    $this->user = TestAuthenticationSessionUser::fill([
         'name' => faker()->name,
         'email' => faker()->email,
         'password' => bcrypt('secret'),
