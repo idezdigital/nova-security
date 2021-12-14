@@ -55,7 +55,7 @@ class NovaSecurity
         $field = $this->getProtectedField();
         $model = $this->getUserModel();
 
-        $user = $model::where($field,$request->input($field))->first();
+        $user = $model::where($field, $request->input($field))->first();
 
         return $user ?? null;
     }

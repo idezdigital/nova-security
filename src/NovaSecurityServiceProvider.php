@@ -31,8 +31,8 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        $this->app->bind('nova-security', function($app) {
-            return new NovaSecurity;
+        $this->app->bind('nova-security', function ($app) {
+            return new NovaSecurity();
         });
 
         $this->app->register(Google2FAServiceProvider::class);

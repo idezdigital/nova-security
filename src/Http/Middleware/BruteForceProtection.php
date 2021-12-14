@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use function now;
-use function trans;
 
 final class BruteForceProtection
 {
