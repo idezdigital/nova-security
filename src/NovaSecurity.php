@@ -14,10 +14,10 @@ class NovaSecurity
     {
         $validator = Validator::make([
             'model' => $this->getUserModel(),
-            'username' => $this->getProtectedField()
+            'username' => $this->getProtectedField(),
         ], [
-            'model' => ['required', 'string', new InvalidUserModelRule],
-            'username' => ['required', 'string', new InvalidUsernameRule],
+            'model' => ['required', 'string', new InvalidUserModelRule()],
+            'username' => ['required', 'string', new InvalidUsernameRule()],
         ]);
 
 
@@ -27,6 +27,7 @@ class NovaSecurity
     public function getGuard(): \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
     {
         $name = $this->getGuardName();
+
         return auth()->guard($name);
     }
 
@@ -54,7 +55,7 @@ class NovaSecurity
         $field = $this->getProtectedField();
         $model = $this->getUserModel();
 
-        $user = $model::where($field,$request->input($field))->first();
+        $user = $model::where($field, $request->input($field))->first();
 
         return $user ?? null;
     }

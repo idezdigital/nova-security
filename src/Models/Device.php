@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Device extends Model
 {
-    use SoftDeletes, HasUuid;
+    use SoftDeletes;
+    use HasUuid;
 
     /**
      * The attributes that are mass assignable.
