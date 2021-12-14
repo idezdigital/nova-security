@@ -2,15 +2,15 @@
 
 namespace Idez\NovaSecurity\Http\Middleware;
 
+use function app;
 use Closure;
+use function config;
+use function filled;
 use Idez\NovaSecurity\NovaSecurity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use function app;
-use function config;
-use function filled;
 use function now;
 use function trans;
 
@@ -32,7 +32,7 @@ final class BruteForceProtection
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!($request->routeIs('nova.login'))) {
+        if (! ($request->routeIs('nova.login'))) {
             return $next($request);
         }
 

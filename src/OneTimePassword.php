@@ -65,7 +65,7 @@ class OneTimePassword
     {
         $device2faSecret = $this->getDevice2faSecret($device);
 
-        if (!$device2faSecret) {
+        if (! $device2faSecret) {
             $errorKey = '2fa.device_not_have_2fa';
 
             throw new OneTimePasswordException(trans("errors.auth.$errorKey"), 400, $errorKey);
@@ -85,20 +85,20 @@ class OneTimePassword
      */
     public function checkOneTimePasswordInRequest(): bool
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return true;
         }
 
         $otpInputName = $this->getInputName();
         $otpValue = request()->input($otpInputName);
 
-        if (!$otpValue) {
+        if (! $otpValue) {
             $errorKey = 'auth.2fa.missing_attribute';
 
             throw new OneTimePasswordException(trans("errors.$errorKey", ['name' => $otpInputName]), 400, $errorKey);
         }
 
-        if (!$this->isValidOtpPattern($otpValue)) {
+        if (! $this->isValidOtpPattern($otpValue)) {
             $errorKey = 'auth.2fa.invalid_pattern';
 
             throw new OneTimePasswordException(trans("errors.$errorKey", ['name' => $otpInputName]), 400, $errorKey);
@@ -114,7 +114,7 @@ class OneTimePassword
 
         $isValidOtp = $this->isValid2FASecretToken($verifiedDevice, $otpValue);
 
-        if (!$isValidOtp) {
+        if (! $isValidOtp) {
             $errorKey = '2fa.invalid_otp';
 
             throw new OneTimePasswordException(trans("errors.auth.$errorKey"), 403, $errorKey);
@@ -181,7 +181,7 @@ class OneTimePassword
     {
         $device2faSecret = $this->getDevice2faSecret($device);
 
-        if (!$device2faSecret) {
+        if (! $device2faSecret) {
             $errorKey = '2fa.device_not_have_2fa';
 
             throw new OneTimePasswordException(trans("errors.auth.$errorKey"), 400, $errorKey);
