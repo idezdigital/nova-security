@@ -44,11 +44,11 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
      */
     protected function registerGoogle2FA()
     {
-        if( config('nova-security.google2fa.ignore_override', false )){
+        if (config('nova-security.google2fa.ignore_override', false)) {
             return;
         }
 
-        if(! config('nova-security.google2fa.enabled', false )){
+        if (! config('nova-security.google2fa.enabled', false)) {
             return;
         }
 
@@ -61,11 +61,9 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
      */
     protected function overrideConfiguration(string $overrideKey, $key): void
     {
-       config()->set(
-           $overrideKey,
-           config($key, config($overrideKey, []))
-       );
-
-
+        config()->set(
+            $overrideKey,
+            config($key, config($overrideKey, []))
+        );
     }
 }

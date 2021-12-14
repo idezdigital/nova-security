@@ -6,7 +6,7 @@ use Idez\NovaSecurity\Exceptions\OneTimePasswordException;
 use Idez\NovaSecurity\OneTimePassword;
 use PragmaRX\Google2FALaravel\Support\Authenticator;
 
-if (!function_exists('Idez\NovaSecurity\Helpers\getClientIp')) {
+if (! function_exists('Idez\NovaSecurity\Helpers\getClientIp')) {
     /**
      * Get client ip.
      */
@@ -17,7 +17,7 @@ if (!function_exists('Idez\NovaSecurity\Helpers\getClientIp')) {
 }
 
 
-if (!function_exists('Idez\NovaSecurity\Helpers\checkOneTimePassword')) {
+if (! function_exists('Idez\NovaSecurity\Helpers\checkOneTimePassword')) {
     /**
      * Helper to check OTP attribute in Request
      *
@@ -31,7 +31,7 @@ if (!function_exists('Idez\NovaSecurity\Helpers\checkOneTimePassword')) {
 }
 
 
-if (!function_exists('Idez\NovaSecurity\Helpers\hasOTP')) {
+if (! function_exists('Idez\NovaSecurity\Helpers\hasOTP')) {
     /**
      *
      * @param $code
