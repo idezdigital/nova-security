@@ -31,7 +31,7 @@ You can publish the config file with:
 php artisan vendor:publish --tag="nova-security-config"
 ```
 
-You can publish the translate files with:
+You can publish the translations files with:
 ```bash
 php artisan vendor:publish --tag="nova-security-translations"
 ```
@@ -45,15 +45,48 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'brute_force' => [
+        'enabled' => true,
+        'max_attempts' => 3,
+        'ttl' => 3600,
+        'protected_field' => 'email',
+    ],
+
+
+    '2fa' => [
+        'enabled' => true,
+        'invalid_attempts_limit'
+    ]
 ];
 ```
 
 ## Usage
 
+### Brute Force
+Brute force protection is a Middleware, which can be registered in your application's NovaServiceProvider, override routes() method, as in the example below:
+
 ```php
-$nova-security = new Idez\NovaSecurity();
-echo $nova-security->echoPhrase('Hello, Idez!');
+use Idez\NovaSecurity\BruteForceProtection;
+
+    /**
+     * Register the Nova routes.
+     *
+     * @return void
+     */
+    protected function routes()
+    {
+        $middleware = [
+            'web',
+            BruteForceProtection::class,
+        ];
+
+        Nova::routes()
+            ->withAuthenticationRoutes($middleware)
+            ->withPasswordResetRoutes();
+    }
 ```
+Nothing prevents you from placing it elsewhere, such as `App\Http\Kernel` or `config/nova.php`
+
 
 ## Testing
 
