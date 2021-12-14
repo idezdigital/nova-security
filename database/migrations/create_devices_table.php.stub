@@ -20,12 +20,11 @@ return new class extends Migration {
             $table->text('identifier');
             $table->text('user_agent');
             $table->json('ips');
-            $table->integer('invalid_attempts')->default(0);
-            $table->string('secret_key')->nullable();
-            $table->timestamp('verified_at')->nullable();
-            $table->json('extra')->nullable();
-            $table->softDeletes();
+            $table->integer('2fa_invalid_attempts')->default(0);
+            $table->string('2fa_secret_key')->nullable();
+            $table->timestamp('2fa_verified_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -27,9 +27,8 @@ class OneTimePassword
      * @param Device $device
      * @return array
      *
-     * @throws IncompatibleWithGoogleAuthenticatorException
-     * @throws InvalidCharactersException
-     * @throws SecretKeyTooShortException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function create2FASecretAndAuthUrl(Device $device): array
     {
@@ -90,7 +89,7 @@ class OneTimePassword
         }
 
         $otpInputName = $this->getInputName();
-        $otpValue = request()->input($otpInputName);
+        $otpValue = request()?->input($otpInputName);
 
         if (! $otpValue) {
             $errorKey = 'auth.2fa.missing_attribute';

@@ -88,6 +88,13 @@ use Idez\NovaSecurity\BruteForceProtection;
 Nothing prevents you from placing it elsewhere, such as `App\Http\Kernel` or `config/nova.php`
 
 
+### 2FA
+
+This package uses the [pragmarx/google 2fa](https://github.com/antonioribeiro/google2fa) package as a base.
+
+
+
+
 ## Testing
 
 ```bash
