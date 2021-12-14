@@ -21,7 +21,7 @@ return [
     |
     */
     'brute_force' => [
-        'active' => true,
+        'enabled' => true,
         'max_attempts' => 3,
         'ttl' => 3600,
         'protected_field' => 'email',
@@ -29,7 +29,7 @@ return [
 
 
     '2fa' => [
-        'active' => true,
+        'enabled' => true,
         'invalid_attempts_limit'
     ]
 

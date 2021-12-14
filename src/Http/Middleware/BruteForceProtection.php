@@ -32,9 +32,10 @@ final class BruteForceProtection
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!($request->routeIs('nova.login'))) {
+        if (! $this->novaSecurity->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request)) {
             return $next($request);
         }
+
 
         $user = $this->novaSecurity->getUserByProtectedField($request);
         if (! $user) {
@@ -45,7 +46,7 @@ final class BruteForceProtection
 
         if (filled($user->getAttribute('blocked_at'))) {
             throw ValidationException::withMessages([
-                'email' => [trans('nova-security.blocked')],
+                'email' => [__('nova-security::validation.blocked')],
             ]);
         }
 
@@ -67,10 +68,15 @@ final class BruteForceProtection
             $user->setAttribute('blocked_at', now())->save();
 
             throw ValidationException::withMessages([
-                'email' => [trans('nova-security.brute_force.max_login_attempts')],
+                $field => [__('nova-security::validation.brute_force.max_login_attempts')],
             ]);
         }
 
         return $next($request);
+    }
+
+    private function isNovaLoginRoute(Request $request): bool
+    {
+        return $request->routeIs('nova.login') || $request->route()?->getName() === 'nova.login';
     }
 }

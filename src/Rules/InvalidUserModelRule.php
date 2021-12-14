@@ -36,6 +36,6 @@ class InvalidUserModelRule implements Rule
 
     public function message()
     {
-        return trans('nova-security.exceptions.invalid_user_model', ['attribute' => $this->value]);
+        return trans('nova-security::validation.exceptions.invalid_user_model', ['attribute' => $this->value]);
     }
 }

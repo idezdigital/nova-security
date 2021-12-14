@@ -30,6 +30,6 @@ class InvalidUsernameRule implements Rule
      */
     public function message()
     {
-        return trans('nova-security.exceptions.invalid_username', ['attribute' => $this->value]);
+        return trans('nova-security::validation.exceptions.invalid_username', ['attribute' => $this->value]);
     }
 }
