@@ -2,13 +2,13 @@
 
 namespace Idez\NovaSecurity;
 
+use Idez\NovaSecurity\Facades\NovaSecurity;
 use Idez\NovaSecurity\Rules\InvalidUserModelRule;
 use Idez\NovaSecurity\Rules\InvalidUsernameRule;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Idez\NovaSecurity\Facades\NovaSecurity;
 
 class BruteForceProtection
 {
@@ -61,6 +61,7 @@ class BruteForceProtection
 
         if ($match) {
             Cache::forget($key);
+
             return true;
         }
 
@@ -79,5 +80,4 @@ class BruteForceProtection
 
         return false;
     }
-
 }

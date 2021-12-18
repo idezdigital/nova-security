@@ -2,12 +2,12 @@
 
 namespace Idez\NovaSecurity\Http\Middleware;
 
+use function app;
 use Closure;
+use function filled;
 use Idez\NovaSecurity\BruteForceProtection;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use function app;
-use function filled;
 
 final class NovaBruteForceProtection
 {
@@ -31,7 +31,7 @@ final class NovaBruteForceProtection
             return $next($request);
         }
 
-        if (!$this->bruteForceProtection->isBruteForceProtectionEnabled() || !$this->isNovaLoginRoute($request)) {
+        if (! $this->bruteForceProtection->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request)) {
             return $next($request);
         }
 
@@ -40,7 +40,7 @@ final class NovaBruteForceProtection
         $protectedField = $request->input($field);
 
         $user = $this->bruteForceProtection->getUserByProtectedField($protectedField);
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
