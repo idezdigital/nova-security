@@ -2,8 +2,6 @@
 
 namespace Idez\NovaSecurity;
 
-use Idez\NovaSecurity\Exceptions\OneTimePasswordException;
-
 class NovaSecurity
 {
     protected function getGuardName(): string
@@ -13,7 +11,7 @@ class NovaSecurity
 
     public function getUserModel($guard = null): string
     {
-        if (!$guard) {
+        if (! $guard) {
             $guard = $this->getGuardName();
         }
 
@@ -21,5 +19,4 @@ class NovaSecurity
 
         return config("auth.providers.{$provider}.model");
     }
-    
 }

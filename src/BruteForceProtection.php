@@ -45,6 +45,4 @@ class BruteForceProtection
     {
         return config('nova-security.brute_force.enabled', true);
     }
-
 }
-

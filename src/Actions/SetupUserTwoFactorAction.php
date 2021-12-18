@@ -54,7 +54,6 @@ class SetupUserTwoFactorAction extends Action
 
 
         if ($google2fa->verifyGoogle2FA($secret, $otp)) {
-
             $column = config('google2fa.otp_secret_column');
 
             $user->{$column} = $secret;
@@ -120,18 +119,20 @@ class SetupUserTwoFactorAction extends Action
          * @param NovaRequest $request
          * @return bool
          */
-        return fn(NovaRequest $request): bool => $request instanceof ActionRequest || ($request->resource()->id === auth()->user()?->getAuthIdentifier() && !filled($request->resource()->two_factor_secret));
+        return fn (NovaRequest $request): bool => $request instanceof ActionRequest || ($request->resource()->id === auth()->user()?->getAuthIdentifier() && ! filled($request->resource()->two_factor_secret));
     }
 
     public function canSee(?Closure $callback = null): self
     {
         $callback ??= $this->twoFactorActionStillValid();
+
         return parent::canSee($callback);
     }
 
     public function canRun(?Closure $callback = null): self
     {
         $callback ??= $this->twoFactorActionStillValid();
+
         return parent::canRun($callback);
     }
 

@@ -21,18 +21,21 @@ class NovaAuthenticator extends Authenticator
         $otpInputName = $this->getInputName();
         $otpValue = $this->getInputOneTimePassword();
 
-        if (!$otpValue) {
+        if (! $otpValue) {
             $errorKey = 'missing_attribute';
+
             throw new OneTimePasswordException(trans("nova-security::2fa.$errorKey", ['name' => $otpInputName]), 400, key: $errorKey);
         }
 
-        if (!$this->isValidOtpPattern($otpValue)) {
+        if (! $this->isValidOtpPattern($otpValue)) {
             $errorKey = 'invalid_pattern';
+
             throw new OneTimePasswordException(trans("nova-security::2fa.$errorKey", ['name' => $otpInputName]), 400, key: $errorKey);
         }
 
-        if (!$this->checkOTP()) {
+        if (! $this->checkOTP()) {
             $errorKey = 'invalid_otp';
+
             throw new OneTimePasswordException(trans("nova-security::2fa.$errorKey"), 403, key: $errorKey);
         }
 
@@ -48,7 +51,7 @@ class NovaAuthenticator extends Authenticator
      */
     public function isActivated(): bool
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return false;
         }
 
@@ -58,7 +61,7 @@ class NovaAuthenticator extends Authenticator
             throw new InvalidSecretKey('Secret key is not set.');
         }
 
-        return !empty($secret);
+        return ! empty($secret);
     }
 
     /**
@@ -95,5 +98,4 @@ class NovaAuthenticator extends Authenticator
     {
         return parent::verifyOneTimePassword();
     }
-
 }

@@ -5,8 +5,7 @@ namespace Idez\NovaSecurity\Helpers;
 use Idez\NovaSecurity\Exceptions\OneTimePasswordException;
 use Idez\NovaSecurity\NovaAuthenticator;
 
-
-if (!function_exists('Idez\NovaSecurity\Helpers\checkOtp')) {
+if (! function_exists('Idez\NovaSecurity\Helpers\checkOtp')) {
     /**
      * Helper to check OTP attribute in Request
      *
@@ -21,7 +20,7 @@ if (!function_exists('Idez\NovaSecurity\Helpers\checkOtp')) {
 }
 
 
-if (!function_exists('Idez\NovaSecurity\Helpers\verifyOTP')) {
+if (! function_exists('Idez\NovaSecurity\Helpers\verifyOTP')) {
     /**
      * Helper to check if OTP is enabled
      * @param $code
@@ -35,6 +34,7 @@ if (!function_exists('Idez\NovaSecurity\Helpers\verifyOTP')) {
 
         // @phpstan-ignore-next-line
         $secret = $authenticator?->getInputOneTimePassword();
+
         return $authenticator->verifyGoogle2FA($secret, $code);
     }
 }

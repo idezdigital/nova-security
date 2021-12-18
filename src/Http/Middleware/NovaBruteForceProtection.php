@@ -2,11 +2,11 @@
 
 namespace Idez\NovaSecurity\Http\Middleware;
 
-use Idez\NovaSecurity\BruteForceProtection;
 use function app;
 use Closure;
 use function config;
 use function filled;
+use Idez\NovaSecurity\BruteForceProtection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
