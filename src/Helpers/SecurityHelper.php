@@ -3,47 +3,38 @@
 namespace Idez\NovaSecurity\Helpers;
 
 use Idez\NovaSecurity\Exceptions\OneTimePasswordException;
-use Idez\NovaSecurity\OneTimePassword;
-use PragmaRX\Google2FALaravel\Support\Authenticator;
-
-if (!function_exists('Idez\NovaSecurity\Helpers\getClientIp')) {
-    /**
-     * Get client ip.
-     */
-    function getClientIp(): ?string
-    {
-        return request()?->header('x-vapor-source-ip') ?? request()?->getClientIp() ?? null;
-    }
-}
+use Idez\NovaSecurity\NovaAuthenticator;
 
 
-if (!function_exists('Idez\NovaSecurity\Helpers\checkOneTimePassword')) {
+if (!function_exists('Idez\NovaSecurity\Helpers\checkOtp')) {
     /**
      * Helper to check OTP attribute in Request
      *
      * @return bool
      * @throws OneTimePasswordException
      */
-    function checkOneTimePassword(): bool
+    function checkOtp(): bool
     {
-        return app(OneTimePassword::class)->checkOneTimePasswordInRequest();
+        // @phpstan-ignore-next-line
+        return app(NovaAuthenticator::class)?->boot(request())?->checkOneTimePasswordInRequest() ?? false;
     }
 }
 
 
-if (!function_exists('Idez\NovaSecurity\Helpers\hasOTP')) {
+if (!function_exists('Idez\NovaSecurity\Helpers\verifyOTP')) {
     /**
-     *
+     * Helper to check if OTP is enabled
      * @param $code
      * @return bool
      */
 
     //@phpstan-ignore-next-line
-    function hasOTP($code): bool
+    function verifyOTP($code): bool
     {
-        $two_factor_field = config('idez.nova_security.2fa.otp_secret_column');
+        $authenticator = app(NovaAuthenticator::class)->boot(request());
 
-        //@phpstan-ignore-next-line
-        return app(Authenticator::class)?->verifyGoogle2FA(auth()->user()?->{$two_factor_field}, $code);
+        // @phpstan-ignore-next-line
+        $secret = $authenticator?->getInputOneTimePassword();
+        return $authenticator->verifyGoogle2FA($secret, $code);
     }
 }

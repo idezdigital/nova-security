@@ -27,16 +27,19 @@ php artisan migrate
 ```
 
 You can publish the config file with:
+
 ```bash
 php artisan vendor:publish --tag="nova-security-config"
 ```
 
 You can publish the translations files with:
+
 ```bash
 php artisan vendor:publish --tag="nova-security-translations"
 ```
 
 You can publish the views files with:
+
 ```bash
 php artisan vendor:publish --tag="nova-security-views"
 ```
@@ -63,7 +66,9 @@ return [
 ## Usage
 
 ### Brute Force
-Brute force protection is a Middleware, which can be registered in your application's NovaServiceProvider, override routes() method, as in the example below:
+
+Brute force protection is a Middleware, which can be registered in your application's NovaServiceProvider, override
+routes() method, as in the example below:
 
 ```php
 use Idez\NovaSecurity\BruteForceProtection;
@@ -85,15 +90,28 @@ use Idez\NovaSecurity\BruteForceProtection;
             ->withPasswordResetRoutes();
     }
 ```
-Nothing prevents you from placing it elsewhere, such as `App\Http\Kernel` or `config/nova.php`
 
+Nothing prevents you from placing it elsewhere, such as `App\Http\Kernel` or `config/nova.php`
 
 ### 2FA
 
 This package uses the [pragmarx/google 2fa](https://github.com/antonioribeiro/google2fa) package as a base.
 
+### Actions
+
+In User Resource
+
+```php
+
+    \Idez\NovaSecurity\Actions\SetupUserTwoFactorAction::make()->onlyOnDetail()
+        ->canSee(fn ($request) => $request instanceof ActionRequest || ($this->resource->id === auth()->user()->id && ! filled($this->resource->two_factor_secret)))
+        ->canRun(fn ($request) => $request instanceof ActionRequest || ($this->resource->id === auth()->user()->id && ! filled($this->resource->two_factor_secret))),
 
 
+    \Idez\NovaSecurity\Actions\UnblockUserAction::make()
+        ->onlyOnDetail()
+        ->canSee(fn () => $request->user()->isSuperAdmin()),
+```
 
 ## Testing
 

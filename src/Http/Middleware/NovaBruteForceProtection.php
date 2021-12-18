@@ -2,24 +2,24 @@
 
 namespace Idez\NovaSecurity\Http\Middleware;
 
+use Idez\NovaSecurity\BruteForceProtection;
 use function app;
 use Closure;
 use function config;
 use function filled;
-use Idez\NovaSecurity\NovaSecurity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use function now;
 
-final class BruteForceProtection
+final class NovaBruteForceProtection
 {
-    private NovaSecurity $novaSecurity;
+    private BruteForceProtection $bruteForceProtection;
 
     public function __construct()
     {
-        $this->novaSecurity = app('nova-security');
+        $this->bruteForceProtection = app(BruteForceProtection::class);
     }
 
     /**
@@ -31,17 +31,17 @@ final class BruteForceProtection
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! $this->novaSecurity->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request)) {
+        if (! $this->bruteForceProtection->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request)) {
             return $next($request);
         }
 
 
-        $user = $this->novaSecurity->getUserByProtectedField($request);
+        $user = $this->bruteForceProtection->getUserByProtectedField($request);
         if (! $user) {
             return $next($request);
         }
 
-        $field = $this->novaSecurity->getProtectedField();
+        $field = $this->bruteForceProtection->getProtectedField();
 
         if (filled($user->getAttribute('blocked_at'))) {
             throw ValidationException::withMessages([

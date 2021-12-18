@@ -21,7 +21,12 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasTranslations()
             ->hasViews()
-            ->hasMigrations('add_blocked_at_column_to_users_table', 'add_two_factor_secret_column_to_users_table.php', );
+            ->hasMigrations(
+                'add_blocked_at_column_to_users_table',
+                'add_two_factor_secret_column_to_users_table',
+                'create_devices_table'
+            )
+            ->hasRoute('nova-security');
     }
 
     /**
@@ -44,16 +49,15 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
      */
     protected function registerGoogle2FA()
     {
-        if( config('nova-security.google2fa.ignore_override', false )){
+        if (config('nova-security.google2fa.ignore_override', false)) {
             return;
         }
 
-        if(! config('nova-security.google2fa.enabled', false )){
+        if (!config('nova-security.google2fa.enabled', false)) {
             return;
         }
 
         $this->overrideConfiguration('google2fa', 'nova-security.google2fa');
-
         $this->app->register(Google2FAServiceProvider::class);
     }
 
@@ -61,11 +65,9 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
      */
     protected function overrideConfiguration(string $overrideKey, $key): void
     {
-       config()->set(
-           $overrideKey,
-           config($key, config($overrideKey, []))
-       );
-
-
+        config()->set(
+            $overrideKey,
+            config($key, config($overrideKey, []))
+        );
     }
 }

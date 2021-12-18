@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "bacon/bacon-qr-code": "^2.0",
         "jenssegers/agent": "^2.6",
         "laravel/nova": "^3.0",
         "pragmarx/google2fa-laravel": "^2.0",
