@@ -2,16 +2,12 @@
 
 namespace Idez\NovaSecurity\Http\Middleware;
 
-use Idez\NovaSecurity\BruteForceProtection;
-use function app;
 use Closure;
-use function config;
-use function filled;
+use Idez\NovaSecurity\BruteForceProtection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use function now;
+use function app;
+use function filled;
 
 final class NovaBruteForceProtection
 {
@@ -31,44 +27,33 @@ final class NovaBruteForceProtection
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! $this->bruteForceProtection->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request)) {
+        if (auth()->check()) {
             return $next($request);
         }
 
-
-        $user = $this->bruteForceProtection->getUserByProtectedField($request);
-        if (! $user) {
+        if (!$this->bruteForceProtection->isBruteForceProtectionEnabled() || !$this->isNovaLoginRoute($request)) {
             return $next($request);
         }
+
 
         $field = $this->bruteForceProtection->getProtectedField();
+        $protectedField = $request->input($field);
+
+        $user = $this->bruteForceProtection->getUserByProtectedField($protectedField);
+        if (!$user) {
+            return $next($request);
+        }
+
 
         if (filled($user->getAttribute('blocked_at'))) {
             throw ValidationException::withMessages([
-                'email' => [__('nova-security::validation.blocked')],
+                $field => [__('nova-security::validation.blocked')],
             ]);
         }
 
-
-        $key = "nova-brute-force::{$user->getAttribute($field)}";
-        $attempts = Cache::get($key, 0);
-        $match = Hash::check($request->input($field), $user->getAttribute('password'));
-        if ($match) {
-            Cache::forget($key);
-
+        $match = auth()->validate($request->only($field, 'password'));
+        if ($this->bruteForceProtection->attemp($user, $match)) {
             return $next($request);
-        }
-
-        Cache::put($key, ++$attempts, config('nova-security.brute_force.ttl'));
-
-        if ($attempts >= config('nova-security.brute_force.max_attempts')) {
-            Cache::forget($key);
-
-            $user->setAttribute('blocked_at', now())->save();
-
-            throw ValidationException::withMessages([
-                $field => [__('nova-security::validation.brute_force.max_login_attempts')],
-            ]);
         }
 
         return $next($request);
