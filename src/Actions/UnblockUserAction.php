@@ -3,6 +3,8 @@
 namespace Idez\NovaSecurity\Actions;
 
 use Idez\NovaSecurity\Exceptions\OneTimePasswordException;
+use function Idez\NovaSecurity\Helpers\checkOtp;
+use function Idez\NovaSecurity\Helpers\verifyOTP;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -11,8 +13,6 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use function Idez\NovaSecurity\Helpers\checkOtp;
-use function Idez\NovaSecurity\Helpers\verifyOTP;
 
 class UnblockUserAction extends Action
 {
@@ -44,7 +44,7 @@ class UnblockUserAction extends Action
             return Action::danger(trans('nova-security::actions.this_operation_cannot_be_performed_in_bulk'));
         }
 
-        if (!checkOtp()) {
+        if (! checkOtp()) {
             return Action::danger('Código de segurança inválido.');
         }
 
@@ -52,7 +52,6 @@ class UnblockUserAction extends Action
 
         $user->blocked_at = false;
         $user->save();
-
     }
 
     /**
@@ -65,7 +64,7 @@ class UnblockUserAction extends Action
         return [
             Text::make('One time password', 'otp')
                 ->rules('required', 'numeric', 'digits:6')
-                ->canSee(fn() => verifyOTP())
+                ->canSee(fn () => verifyOTP()),
         ];
     }
 }

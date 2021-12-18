@@ -10,7 +10,6 @@ use Illuminate\Http\Response;
 
 class OneTimePasswordController
 {
-
     public function __construct(private NovaAuthenticator $authenticator)
     {
     }
@@ -36,8 +35,7 @@ class OneTimePasswordController
         $authenticator = $this->authenticator->boot($request);
 
         // @phpstan-ignore-next-line
-        if ($authenticator->verifyOneTimePassword())
-        {
+        if ($authenticator->verifyOneTimePassword()) {
             $authenticator->login();
         }
 

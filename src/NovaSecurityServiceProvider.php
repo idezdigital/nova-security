@@ -53,7 +53,7 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
             return;
         }
 
-        if (!config('nova-security.google2fa.enabled', false)) {
+        if (! config('nova-security.google2fa.enabled', false)) {
             return;
         }
 
