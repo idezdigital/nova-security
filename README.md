@@ -80,12 +80,9 @@ Brute force protection is a Middleware, which can be registered in your applicat
 
 ```php
 use Idez\NovaSecurity\Http\Middleware\NovaBruteForceProtection;
-
-    protected $middlewareGroups = [
-            'web' => [
-                ...,
-                NovaBruteForceProtection::class,
-            ],
+    'middleware' => [
+        NovaBruteForceProtection::class
+    ]
 
 ```
 
@@ -96,17 +93,13 @@ Nothing prevents you from placing it elsewhere, such as `App\Http\Kernel` or `co
 This package uses the [pragmarx/google2fa-laravel](https://github.com/antonioribeiro/google2fa-laravel) package as a base.
 
 
-Google 2fa or One Time Password is a Middleware, which can be registered in your application's in `App\Http\Kernel`:
+Google 2fa or One Time Password is a Middleware, which can be registered in your application's in `config/nova.php`:
 
 ```php
 use Idez\NovaSecurity\Http\Middleware\NovaTwoFactor;
-
-    protected $middlewareGroups = [
-            'web' => [
-                ...,
-                NovaTwoFactor::class,
-            ],
-
+    'middleware' => [
+        NovaTwoFactor::class
+    ]
 ```
 
 ### Actions
