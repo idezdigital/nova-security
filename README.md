@@ -57,8 +57,17 @@ return [
 
 
     '2fa' => [
-        'enabled' => true,
-        'invalid_attempts_limit'
+        /**
+         * Uses original config file for the 2fa.
+         */
+        'ignore_override' => false,
+
+        /**
+         * Require 2FA for all users.
+         */
+        'require_for_all' => false,
+
+        //... Other settings are the same as the google2fa-laravel configuration file.
     ]
 ];
 ```
@@ -67,35 +76,38 @@ return [
 
 ### Brute Force
 
-Brute force protection is a Middleware, which can be registered in your application's NovaServiceProvider, override
-routes() method, as in the example below:
+Brute force protection is a Middleware, which can be registered in your application's in `App\Http\Kernel`:
 
 ```php
-use Idez\NovaSecurity\BruteForceProtection;
+use Idez\NovaSecurity\Http\Middleware\NovaBruteForceProtection;
 
-    /**
-     * Register the Nova routes.
-     *
-     * @return void
-     */
-    protected function routes()
-    {
-        $middleware = [
-            'web',
-            BruteForceProtection::class,
-        ];
+    protected $middlewareGroups = [
+            'web' => [
+                ...,
+                NovaBruteForceProtection::class,
+            ],
 
-        Nova::routes()
-            ->withAuthenticationRoutes($middleware)
-            ->withPasswordResetRoutes();
-    }
 ```
 
 Nothing prevents you from placing it elsewhere, such as `App\Http\Kernel` or `config/nova.php`
 
 ### 2FA
 
-This package uses the [pragmarx/google 2fa](https://github.com/antonioribeiro/google2fa) package as a base.
+This package uses the [pragmarx/google2fa-laravel](https://github.com/antonioribeiro/google2fa-laravel) package as a base.
+
+
+Google 2fa or One Time Password is a Middleware, which can be registered in your application's in `App\Http\Kernel`:
+
+```php
+use Idez\NovaSecurity\Http\Middleware\NovaTwoFactor;
+
+    protected $middlewareGroups = [
+            'web' => [
+                ...,
+                NovaTwoFactor::class,
+            ],
+
+```
 
 ### Actions
 

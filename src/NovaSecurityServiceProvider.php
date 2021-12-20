@@ -23,8 +23,7 @@ class NovaSecurityServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigrations(
                 'add_blocked_at_column_to_users_table',
-                'add_two_factor_secret_column_to_users_table',
-                'create_devices_table'
+                'add_two_factor_secret_column_to_users_table'
             )
             ->hasRoute('nova-security');
     }
