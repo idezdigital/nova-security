@@ -5,7 +5,7 @@ namespace Idez\NovaSecurity;
 use Idez\NovaSecurity\Facades\NovaSecurity;
 use Idez\NovaSecurity\Rules\InvalidUserModelRule;
 use Idez\NovaSecurity\Rules\InvalidUsernameRule;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
