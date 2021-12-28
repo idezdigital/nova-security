@@ -112,7 +112,7 @@ return [
         /*
          * One Time Password View.
          */
-        'view' => 'nova::auth.two_factor',
+        'view' => 'nova-security::two-factor-challenge',
 
         /*
          * One Time Password error message.
