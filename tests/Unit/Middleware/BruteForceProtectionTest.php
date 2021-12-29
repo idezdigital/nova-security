@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use function Pest\Faker\faker;
 
 beforeEach(function () {
-
     class TestAuthenticationSessionUser extends User
     {
         protected $table = 'users';
@@ -32,7 +31,6 @@ beforeEach(function () {
 
 
 it('should be blocked after 3 attempts.', function () {
-
     $this->markTestSkipped('This test is not working.');
     config()->set('nova-security.brute_force.max_attempts', 3);
 
