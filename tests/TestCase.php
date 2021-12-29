@@ -3,6 +3,7 @@
 namespace Idez\NovaSecurity\Tests;
 
 use Idez\NovaSecurity\NovaSecurityServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -24,13 +25,24 @@ class TestCase extends Orchestra
         (new NovaSecurityServiceProvider($this->app))->packageBooted();
     }
 
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
-    protected function defineDatabaseMigrations(): void
+    public function getEnvironmentSetUp($app)
     {
-        $this->loadLaravelMigrations();
+        Schema::dropAllTables();
+
+        Schema::create('users', function ($table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        $migrationBlock = include __DIR__.'/../database/migrations/add_blocked_at_column_to_users_table.php.stub';
+        $migrationBlock->up();
+        
+        $migrationSecret = include __DIR__.'/../database/migrations/add_two_factor_secret_column_to_users_table.php.stub';
+        $migrationSecret->up();
     }
 }

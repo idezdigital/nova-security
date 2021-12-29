@@ -133,7 +133,7 @@ return [
          *
          * Supports imagemagick, svg and eps
          */
-        'qrcode_image_backend' => Constants::QRCODE_IMAGE_BACKEND_SVG,
+        'qrcode_image_backend' => 'svg',
 
         /**
          * Maximum limit of invalid attempts to disable 2FA on the device.
