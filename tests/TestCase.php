@@ -41,7 +41,7 @@ class TestCase extends Orchestra
 
         $migrationBlock = include __DIR__.'/../database/migrations/add_blocked_at_column_to_users_table.php.stub';
         $migrationBlock->up();
-        
+
         $migrationSecret = include __DIR__.'/../database/migrations/add_two_factor_secret_column_to_users_table.php.stub';
         $migrationSecret->up();
     }
