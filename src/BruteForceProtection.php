@@ -61,6 +61,7 @@ class BruteForceProtection
 
         if ($match) {
             Cache::forget($key);
+
             return true;
         }
 
@@ -77,7 +78,6 @@ class BruteForceProtection
                     $field => [__('nova-security::validation.brute_force.max_login_attempts')],
                 ]);
             }
-
         }
 
 

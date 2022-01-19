@@ -2,13 +2,13 @@
 
 namespace Idez\NovaSecurity\Http\Middleware;
 
+use function app;
 use Closure;
+use function filled;
 use Idez\NovaSecurity\BruteForceProtection;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use function app;
-use function filled;
 
 class NovaBruteForceProtection
 {
@@ -32,7 +32,7 @@ class NovaBruteForceProtection
             return $next($request);
         }
 
-        if (!$this->bruteForceProtection->isBruteForceProtectionEnabled() || !$this->isNovaLoginRoute($request)) {
+        if (! $this->bruteForceProtection->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request)) {
             return $next($request);
         }
 
@@ -41,7 +41,7 @@ class NovaBruteForceProtection
         $protectedField = $request->input($field);
 
         $user = $this->bruteForceProtection->getUserByProtectedField($protectedField);
-        if (!$user instanceof Authenticatable) {
+        if (! $user instanceof Authenticatable) {
             return $next($request);
         }
 
