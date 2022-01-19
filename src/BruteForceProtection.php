@@ -61,7 +61,6 @@ class BruteForceProtection
 
         if ($match) {
             Cache::forget($key);
-
             return true;
         }
 
@@ -69,16 +68,16 @@ class BruteForceProtection
 
         if ($attempts >= config('nova-security.brute_force.max_attempts')) {
             Cache::forget($key);
-            dd($attempts);
 
-//            if(isset($user->blocket_at)){
+            if (isset($user->blocket_at)) {
                 $user->blocked_at = now();
                 $user->save();
-//            }
 
-            throw ValidationException::withMessages([
-                $field => [__('nova-security::validation.brute_force.max_login_attempts')],
-            ]);
+                throw ValidationException::withMessages([
+                    $field => [__('nova-security::validation.brute_force.max_login_attempts')],
+                ]);
+            }
+
         }
 
 
