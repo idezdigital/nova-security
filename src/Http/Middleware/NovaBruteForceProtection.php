@@ -32,13 +32,13 @@ class NovaBruteForceProtection
             return $next($request);
         }
 
-        if (! $this->bruteForceProtection->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request)) {
+        if (! $this->isConsole() && ! ($this->bruteForceProtection->isBruteForceProtectionEnabled() || ! $this->isNovaLoginRoute($request))) {
             return $next($request);
         }
 
-
         $field = $this->bruteForceProtection->getProtectedField();
         $protectedField = $request->input($field);
+
 
         $user = $this->bruteForceProtection->getUserByProtectedField($protectedField);
         if (! $user instanceof Authenticatable) {
@@ -60,8 +60,13 @@ class NovaBruteForceProtection
         return $next($request);
     }
 
+    private function isConsole(): bool
+    {
+        return app()->runningUnitTests() || app()->runningInConsole();
+    }
+
     private function isNovaLoginRoute(Request $request): bool
     {
-        return $request->routeIs('nova.login') || $request->route()?->getName() === 'nova.login';
+        return ($request->routeIs('nova.login') || $request->route()?->getName() === 'nova.login');
     }
 }
